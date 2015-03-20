@@ -40,7 +40,11 @@ Running Median keeps track of the median for a stream of numbers, updating the m
 There are many good algorithms to do this, using two heaps is particularly a good one. However, it does not scale well with large data. In general, finding running median is not trivial, and to find the exact solution with memory constraint is very hard. If exact solution is not required, there are some statistical methods to estimate the median.
 
 To simplify the problem, observe that all data are positive integers corresponding to the number of words in a given line, so I make the following assumption:
->Suppose we have a huge data that contains n lines, and the number of words in each line is in the range 1 to k where k << n, and k can fit into main memory while n lines of data cannot.
+```
+Suppose we have a huge data that contains n lines, and the number of words in each line
+is in the range 1 to k where k << n, and k can fit into main memory while n lines of
+data cannot.
+```
 With this assumption, I can update the distributition of the numbers when I see a new number on the fly and compute the new running median.
 
 ####Algorithm:

@@ -48,16 +48,16 @@ data cannot.
 With this assumption, I can update the distributition of the numbers when I see a new number on the fly and compute the new running median.
 
 ####Algorithm:
-0. create a dictionary
-1. read in a line
-2. get the number of words in the line
-3. use the number of words as key
+1. create a dictionary
+2. read in a line
+3. get the number of words in the line
+4. use the number of words as key
    - if key already exist:
       - increment the value associated with the key by 1
    - else:
       - create a new key associate with value 1
-4. update the median and write it to disk
-5. repeat 1-4 till end of files
+5. update the median and write it to disk
+6. repeat 2-5 till end of files
 
 The magic here is, given the distributition of the numbers, how to find the median?
 I do the following:
@@ -66,7 +66,8 @@ I do the following:
 2. sort the keys
 3. compute the cumulative distribution until we find the mid point
 
+Note that *k'* denotes the current number of distinct keys as opposed to *k* which denotes the maximum value of *k'*
 #####Worst case:
-Sorting keys is O(k * log k) and finding mid point is O(k/2) = O(k) (when all numbers are uniformly distributed)
+Sorting keys is O(*k'* * log *k'*) and finding mid point is O(*k'*/2) = O(*k'*) (when all numbers are uniformly distributed)
 #####Best case:
-Sorting keys is O(k) and finding mid point is O(1) (think of the case when all numbers are the same)
+Sorting keys is O(*k'*) and finding mid point is O(1) (think of the case when all numbers are the same)

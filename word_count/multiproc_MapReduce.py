@@ -136,9 +136,9 @@ class MapReduce(object):
         
         mapper_result = self.pool.map(self.mapper, tmp_files, chunksize=chunksize)
         if self.combiner != None:
-            self.combiner(mapper_result)
+            self.pool.map(self.combiner, mapper_result, chunksize=chunksize)
         partitions = self.partition(mapper_result)
-        reducer_result = self.pool.map(self.reducer, partitions)
+        reducer_result = self.pool.map(self.reducer, partitions, chunksize=chunksize)
         try:
             os.mkdir('wc_output') # directory to store output
         except OSError:

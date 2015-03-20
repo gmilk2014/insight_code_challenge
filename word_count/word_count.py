@@ -46,24 +46,23 @@ def combiner(mapper_results):
     result.
     
     Args:
-      mapper_results (list of str): list of mapper result file names
+      mapper_results (str): mapper result file names
 
     Returns:
       no return value
     """
     
-    for filename in mapper_results:
-        combine = collections.defaultdict(int)
-        with open(filename, 'r') as f:
-            for line in f:
-                try:
-                    key, value = line.split()
-                except ValueError:
-                    print 'line = ' + line
-                combine[key] += 1
-        with open(filename, 'w') as f:
-            for key in combine:
-                f.write(key + ' ' + str(combine[key]) + '\n')
+    combine = collections.defaultdict(int)
+    with open(mapper_results, 'r') as f:
+        for line in f:
+            try:
+                key, value = line.split()
+            except ValueError:
+                print 'Debuggin: line = ' + line
+            combine[key] += int(value)
+    with open(mapper_results, 'w') as f:
+        for key in combine:
+            f.write(key + ' ' + str(combine[key]) + '\n')
 
 def reducer(partition):
     """

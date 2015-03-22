@@ -3,9 +3,11 @@
 Write clean, well-documented code that scales for large amounts of data.
 
 ###How to run the program?
-`$ ./run.sh` or `$ python word_count <lines_per_split>`
+The program is developed under python 2.7.6 without any outside extra dependencies. Any python version after 2.6.x should works as well but note that python 3 may or may not work.
+
+Simply run `$ ./run.sh` or `$ python word_count <lines_per_split>`
 where `<lines_per_split>` is the number of lines in each split. Default to 2000 lines per split.
-Please make sure the directory wc_input is in the same directory with word_count, 
+Please make sure the directory wc_input is in the same directory with word_count.
 
 ###Task1: word counting
 My approach is to implement a MapReduce framework with python multiprocessing modules.

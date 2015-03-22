@@ -179,7 +179,7 @@ class spill_worker(multiprocessing.Process):
         with open(spill_file, 'w') as f:
             for key, values in key_values_list:
                 for v in values:
-                        f.write(key + ' ' + str(v) + '\n')                       
+                    f.write(key + ' ' + str(v) + '\n')                       
             self.results.put(spill_file)
                     
     def run(self):

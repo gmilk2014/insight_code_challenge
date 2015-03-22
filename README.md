@@ -6,34 +6,20 @@ Write clean, well-documented code that scales for large amounts of data.
 My approach is to implement a MapReduce framework with python multiprocessing modules.
 MapReduce is a programming model designed for processing large volumes of data in parallel by dividing the work into a set of independent tasks.
 
-The modern MapReduce implementation often includes a filesystem that helps to manage big data in fast, distributed and falt-tolerance way, but for my simple multiprocessing MapReduce framework I did not implement such file system. I can certainly augement my code in the future to incorporate this.
+The modern MapReduce implementation often includes a filesystem that helps to manage big data in fast, distributed and fault-tolerance way, but for my simple multiprocessing MapReduce framework I did not implement such file system. I can certainly augement my code in the future to incorporate this.
 
 The pipeline for my multiprocess MapReduce word counting job can roughly be summarized as
 
 1. split data into several chunks, each chunk contains several lines of original data
-2. distribute chunks to map workers and store the result on disk
-3. combiner then perform partial sum on the itermediate result from mappers
-4. partitioner then aggregates all the intermediate result and feed the partition result to reducer because all values for the same key are always reduced together regardless of which mapper is its origin
-5. reducer take the partition and sum the values for each key. This step usually refers to as 'summary'
+2. distribute chunks to map workers that perform user-defined map function. In the word counting case, the map function simply emit (word, 1) given a word in file. (word, 1) pair is collected into a buffer.
+3. spill workers will try to sort the content of the buffer by alphabetical order of keys and flush the content to disk when the buffer is 'almost' full. An optional combiner function is called before flushing to disk.
+4. We then merge all sorted spill files on disk into one file.
+5. reducer take the merged file and sum the values for each key. This step usually refers to as 'summary'
 6. the final output is written to wc_output/wc_result.txt
-Note that the final output is not sorted. It's certainly a good feature to be added in the future.
 
 ####Aside:
 #####What is a word?
-The sample output hints that the uppercase words are converted into lowercase words. However, since 'word' is not really clearly defined in original problem, and in natural language processing context, how to define a word is also an open-ended qeustions. It really depends on your real tasks, such as spell checking, part of speech tagging and etc. So I am making the following rules to define a word:
-
-1. all words will be converted into lowercase
-2. a word contains no leading or trailing whitespace
-3. a word contains no leading or trailing punctuation
-4. a word may contain number
-5. However, stand-alone pure punctuations are word
-6. When rule 2 & 3 are violated, all leading and trailing whitespaces and punctuations are removed.
-
-#####Examples:
-- hello! -> hello (rule 6)
-- kc789@cornell.edu -> kc789@cornell.edu (stay as it is becuase punctuations inside a word is ok)
-- %#$%# -> %#$%# (rule 5)
-- World -> world (rule 1)
+A 'word' is not really clearly defined in original problem, so please refer to [FAQ](https://github.com/InsightDataScience/cc-example#faq). In natural language processing literature, how to define a word is an open-ended qeustions. It really depends on your real tasks, such as spell checking, part of speech tagging and etc.
 
 ###Task2: running median
 Running Median keeps track of the median for a stream of numbers, updating the median for each new number.
@@ -68,6 +54,8 @@ I do the following:
 
 Note that *k'* denotes the current number of distinct keys as opposed to *k* which denotes the maximum value of *k'*
 #####Worst case:
+######Each round:
 Sorting keys is O(*k'* * log *k'*) and finding mid point is O(*k'*/2) = O(*k'*) (when all numbers are uniformly distributed)
 #####Best case:
+######Each round:
 Sorting keys is O(*k'*) and finding mid point is O(1) (think of the case when all numbers are the same)

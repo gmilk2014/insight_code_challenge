@@ -299,8 +299,7 @@ class MapReduce(object):
             each split. Default to 2000 lines per split.
             
         Returns:
-          The final output of mapreduce job, a list of (key, values) tuples.
-          The final output is also written to disk at wc_output/wc_result.txt
+          True if success, False otherwise
         
         """
         

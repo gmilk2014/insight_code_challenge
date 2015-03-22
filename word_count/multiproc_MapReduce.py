@@ -399,7 +399,7 @@ class MapReduce(object):
             f.write(reducer_output[0] +
                     ' ' + str(reducer_output[1]) + '\n')
                     
-            # close all files even though they will be romved shortly
+            # close all files even though they will be removed shortly
             for file_handler in spill_files:
                 file_handler.close()
             

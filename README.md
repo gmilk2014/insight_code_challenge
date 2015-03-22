@@ -2,6 +2,11 @@
 
 Write clean, well-documented code that scales for large amounts of data.
 
+###How to run the program?
+`$ ./run.sh` or `$ python word_count <lines_per_split>`
+where `<lines_per_split>` is the number of lines in each split. Default to 2000 lines per split.
+Please make sure the directory wc_input is in the same directory with word_count, 
+
 ###Task1: word counting
 My approach is to implement a MapReduce framework with python multiprocessing modules.
 MapReduce is a programming model designed for processing large volumes of data in parallel by dividing the work into a set of independent tasks.

@@ -14,6 +14,7 @@ def usage():
     return ('Usage: python word_count <lines_per_split>\n' +
               'lines_per_split (int): number of lines in ' +
               'each split. Default to 2000 lines per split.')
+              
 def main(input_dir, lines_per_split):
     # this is to make sure directory wc_input exist
     try:
@@ -21,11 +22,10 @@ def main(input_dir, lines_per_split):
     except OSError:
         pass
     MapReduce_job = multiproc_MapReduce.MapReduce(
-        mapper, reducer, combiner, num_workers=4)
-    MapReduce_job.run(input_dir, lines_per_split)   
-    # remove the temporary directory
-    shutil.rmtree('mapper_intermediate_result', ignore_errors=True)    
+        mapper, reducer, combiner=reducer, num_workers=4)
+    MapReduce_job.run(input_dir, lines_per_split)       
     running_median(input_dir)
+    
 if __name__ == '__main__':
     input_dir = 'wc_input'
     lines_per_split = 2000

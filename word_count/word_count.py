@@ -1,79 +1,35 @@
-import os
-import shutil
-import collections
 import string
-import multiproc_MapReduce
-
-            
-def mapper(filename):
+         
+def mapper(word):
     """
-    Read a file and store <word 1> pairs on disk
-    at the directory mapper_intermediate_result
-    return the file name of intermedialte reult
+    Remove all punctuations and make word lowercase
+    then emit (word, 1) tuple.
+    If the words contains only punctuations, emit ('<INVALID>', 1)
     
     Args:
-      filename (str): input files name
+      word (str): a key word
 
     Returns:
-      the file name of intermedialte reult
+      (word, 1)
     """
-
-    tmp_dir = 'mapper_intermediate_result'
-    try:
-        os.mkdir(tmp_dir) # temporary directory to hold splits of input
-    except OSError:
-        pass
-
-    with open(filename, 'r') as f:
-        filename = os.path.basename(filename)
-        with open(os.path.join(tmp_dir, filename), 'w') as f_output:
-            for line in f:
-                for word in line.strip().split():
-                    clean_up_word = word.strip(string.punctuation).lower()
-                    # the following if-else statement is to ensure that
-                    # if the word contains only punctuations, we will
-                    # leave it as it is.
-                    if clean_up_word == '':
-                        f_output.write(word + ' 1\n')
-                    else:
-                        f_output.write(clean_up_word + ' 1\n')
-    return os.path.join(tmp_dir, filename)
     
-def combiner(mapper_results):
+    table = string.maketrans("","")
+    word = word.translate(table, string.punctuation)
+    word = word.lower()
+    if word == '':
+        word = '<INVALID>'
+    return (word, '1')
+
+def reducer(key, values):
     """
-    Read the intermediate result from mapper and combine the result
-    with what reducer would do. Overwrite the original intermediate
-    result.
+    Sum all the numbers in the list values
     
     Args:
-      mapper_results (str): mapper result file names
+      key (str): a key word
+      values (list of int): a list of integers
 
     Returns:
-      no return value
+      key with its associate sum of values
     """
     
-    combine = collections.defaultdict(int)
-    with open(mapper_results, 'r') as f:
-        for line in f:
-            try:
-                key, value = line.split()
-            except ValueError:
-                print 'Debuggin: line = ' + line
-            combine[key] += int(value)
-    with open(mapper_results, 'w') as f:
-        for key in combine:
-            f.write(key + ' ' + str(combine[key]) + '\n')
-
-def reducer(partition):
-    """
-    Convert the partitioned data into a tuple (word, frequency)
-    
-    Args:
-      partition (tuple): tuple of the form (word, [value1, value2,...])
-
-    Returns:
-      no return value
-    """
-    
-    word, frequency = partition
-    return (word, sum(frequency)) 
+    return (key, sum(values))

@@ -10,7 +10,8 @@ def mapper(word):
       word (str): a key word
 
     Returns:
-      (word, 1)
+      ('<INVALID>', '1') If the words contains only punctuations.
+      Otherwise, (word, '1')
     """
     
     table = string.maketrans("","")

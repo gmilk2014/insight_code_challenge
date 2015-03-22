@@ -170,7 +170,7 @@ class spill_worker(multiprocessing.Process):
         if self.combiner != None:
             for key in self.buffer:                    
                 key, value = self.combiner(key, self.buffer[key])
-                self.buffer[key] = value
+                self.buffer[key] = [value]
         key_values_list = self.buffer.items()
         key_values_list.sort(key=itemgetter(0))
         spill_file = os.path.join(
@@ -178,10 +178,7 @@ class spill_worker(multiprocessing.Process):
             'spill_{0}'.format(self.ID.getValue_and_increment()))            
         with open(spill_file, 'w') as f:
             for key, values in key_values_list:
-                if isinstance(values, int):
-                    f.write(key + ' ' + str(values) + '\n')
-                else:
-                    for v in values:
+                for v in values:
                         f.write(key + ' ' + str(v) + '\n')                       
             self.results.put(spill_file)
                     
@@ -290,7 +287,8 @@ class MapReduce(object):
         return itertools.izip_longest(*iter_list, fillvalue=fillvalue)
     
     def run(self, input_dir, lines_per_split=2000):
-        """initiate the MapReduce Job
+        """initiate the MapReduce Job.
+          Write result to wc_output/wc_result.txt
         
         Args:
           input_dir (str): the directory that contains the data to
@@ -299,7 +297,7 @@ class MapReduce(object):
             each split. Default to 2000 lines per split.
             
         Returns:
-          True if success, False otherwise
+          True if successful, False otherwise.
         
         """
         
@@ -395,10 +393,15 @@ class MapReduce(object):
                     key = key_value[0]                            
                     values = []   # clear the list       
                 values.append(int(key_value[1]))
+                
             # don't forget to flush the last one
             reducer_output = self.reducer(key, values)
             f.write(reducer_output[0] +
-                    ' ' + str(reducer_output[1]) + '\n')   
+                    ' ' + str(reducer_output[1]) + '\n')
+                    
+            # close all files even though they will be romved shortly
+            for file_handler in spill_files:
+                file_handler.close()
             
         # remove the temporary directory
         shutil.rmtree(tmp_dir, ignore_errors=True)

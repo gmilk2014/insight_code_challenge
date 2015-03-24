@@ -68,4 +68,10 @@ Sorting keys is O(*k'* * log *k'*) and finding mid point is O(*k'*/2) = O(*k'*) 
 Sorting keys is O(*k'*) and finding mid point is O(1) (think of the case when all numbers are the same)
 
 ####What if the assumption does not hold?
-If at some point the main memory is not able to hold the histogram because the assumption made above is violated, i.e. k is too big to fit into main memory, we can compress the histogram using [q-digest](http://www.cs.virginia.edu/~son/cs851/papers/ucsb.sensys04.pdf). Q-digest algorithm will tend to preserve the accurate count of the numbers that frequently occur and aggregate the count of the numbers being seen less frequently into a larger bucket. This will indeed introduce error into the final result but there is got to be a trade-off between space and error. No free lunch!! Note that q-digest is not implemented in my code yet but would be a good feature to add on in the future. For more information on q-digest, please see the [original papaer](http://www.cs.virginia.edu/~son/cs851/papers/ucsb.sensys04.pdf).
+If at some point the main memory is not able to hold the histogram because the assumption made above is violated, i.e. k is too big to fit into main memory. Then some other algorithm must be applied, and it will usually introduce error into the final result because there is a trade-off between space and error. No free lunch!! 
+
+One approach is to compress the histogram using [q-digest](http://www.cs.virginia.edu/~son/cs851/papers/ucsb.sensys04.pdf). Q-digest algorithm will tend to preserve the accurate count of the numbers that frequently occur and aggregate the count of the numbers being seen less frequently into a larger bucket.
+
+Q-digest is not implemented in my code yet but would be a good feature to add on in the future. For more information on q-digest, please see the [original papaer](http://www.cs.virginia.edu/~son/cs851/papers/ucsb.sensys04.pdf).
+
+Since Q-digest is really designed for large (distributed) data but not for streaming data, another interesting solution based on q-digest is [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf).

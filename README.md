@@ -74,4 +74,4 @@ One approach is to compress the histogram using [q-digest](http://www.cs.virgini
 
 Q-digest is not implemented in my code yet but would be a good feature to add on in the future. For more information on q-digest, please see the [original papaer](http://www.cs.virginia.edu/~son/cs851/papers/ucsb.sensys04.pdf).
 
-Since Q-digest is really designed for large (distributed) data but not for streaming data, another interesting solution based on q-digest is [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf).
+Since Q-digest is really designed for large (distributed) data but not for streaming data, another clever solution based on q-digest is [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) by [Ted Dunning](https://www.mapr.com/blog/author/ted-dunning).

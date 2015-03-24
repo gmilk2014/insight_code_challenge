@@ -30,7 +30,7 @@ A 'word' is not really clearly defined in original problem, so please refer to [
 
 ###Task2: running median
 Running Median keeps track of the median for a stream of numbers, updating the median for each new number.
-There are many good algorithms to do this, using two heaps is particularly a good one. However, it does not scale well with large data. In general, finding running median is not trivial, and to find the exact solution with memory constraint is very hard. If exact solution is not required, there are some statistical methods to estimate the median.
+There are many good algorithms to do this, using two heaps is particularly a good one. However, it does not scale well with large data. In general, finding running median is not trivial, and to find the exact solution with memory constraint is very hard. If exact solution is not required, there are some probabilistic methods to estimate the median.
 
 To simplify the problem, observe that all data are positive integers corresponding to the number of words in a given line, so I make the following assumption:
 ```

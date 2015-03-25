@@ -78,6 +78,7 @@ Note that *k'* denotes the current number of distinct keys as opposed to *k* whi
 
 ~~Sorting keys is O(*k'*) and finding mid point is O(1) (think of the case when all numbers are the same)~~
 
+####3/24 updated
 ####What if the assumption does not hold?
 If at some point the main memory is not able to hold the histogram because the assumption made above is violated, i.e. k is too big to fit into main memory. Then some other algorithm must be applied, and it will usually introduce error into the final result because there is a trade-off between space and error. No free lunch!! 
 

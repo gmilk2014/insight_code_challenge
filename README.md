@@ -56,6 +56,7 @@ The magic here is, given the distributition of the numbers, how to find the medi
 I do the following:
 
 In order to get a sorted list with unique key value, my original implementation is to get all keys from the dictionary and sort them every single round. However, I recently found that I can simply create a [SortedSet](http://grantjenks.com/docs/sortedcontainers/sortedset.html) and insert the new key into the SortedSet. Grant Jenks, the author of SortedSet, claims that his implementation is fast as C-extensions. Now for each round, the complexity for sorting reduce from O(*k'* * log *k'*) to O(*k'*) (assuming insertion sort) depends on the underlying implementation.
+
 ~~1. get all the keys from the dictionary~~
 
 ~~2. sort the keys~~

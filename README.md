@@ -55,7 +55,7 @@ With this assumption, I can update the distributition of the numbers when I see 
 The magic here is, given the distributition of the numbers, how to find the median?
 I do the following:
 
-In order to get a sorted list with unique key value, my original implementation is to get all keys from the dictionary and sort them every single round. However, I recently found that I can simply create a [SortedSet](http://grantjenks.com/docs/sortedcontainers/sortedset.html) and insert the new key into the SortedSet. Grant Jenks, the author of SortedSet, claims that his implementation is fast as C-extensions. Now for each round, the complexity for sorting reduce from O(*k'* * log *k'*) to O(*k'*) (assuming insertion sort) depends on the underlying implementation. Since the coding challenge is due 3/22, I probably should not change my implementation now (3/25).
+In order to get a sorted list with unique key value, my original implementation is to get all keys from the dictionary and sort them every single round. However, I recently found that I can simply create a [SortedSet](http://grantjenks.com/docs/sortedcontainers/sortedset.html) and insert the new key into the SortedSet. Grant Jenks, the author of SortedSet, claims that his implementation is fast as C-extensions. Now for each round, the complexity for sorting reduce from O(*k'* * log *k'*) to O(*k'*) (assuming insertion sort) depends on the underlying implementation. Since the coding challenge is due 3/22, I probably should not change my implementation now, but I will actively keep researching for more advance technique to improve my code just not only for gaining knowledge but also for fun :P.
 
 ~~1. get all the keys from the dictionary~~
 

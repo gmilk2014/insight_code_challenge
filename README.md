@@ -57,16 +57,23 @@ I do the following:
 
 In order to get a sorted list with unique key value, my original implementation is to get all keys from the dictionary and sort them every single round. However, I recently found that I can simply create a [SortedSet](http://grantjenks.com/docs/sortedcontainers/sortedset.html) and insert the new key into the SortedSet. Grant Jenks, the author of SortedSet, claims that his implementation is fast as C-extensions. Now for each round, the complexity for sorting reduce from O(*k'* * log *k'*) to O(*k'*) (assuming insertion sort) depends on the underlying implementation.
 ~~1. get all the keys from the dictionary~~
+
 ~~2. sort the keys~~
+
 1. Each time we get a key, add the key to a SortedSet
 2. compute the cumulative distribution until we find the mid point
 
 Note that *k'* denotes the current number of distinct keys as opposed to *k* which denotes the maximum value of *k'*
 ~~#####Worst case:~~
+
 ~~######Each round:~~
+
 ~~Sorting keys is O(*k'* * log *k'*) and finding mid point is O(*k'*/2) = O(*k'*) (when all numbers are uniformly distributed)~~
+
 ~~#####Best case:~~
+
 ~~######Each round:~~
+
 ~~Sorting keys is O(*k'*) and finding mid point is O(1) (think of the case when all numbers are the same)~~
 
 ####What if the assumption does not hold?
